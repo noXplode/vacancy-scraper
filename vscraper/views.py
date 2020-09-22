@@ -1,3 +1,5 @@
+from .forms import SearchForm
+
 from django.shortcuts import render
 # from django.http import HttpResponse
 
@@ -7,17 +9,30 @@ from bs4 import BeautifulSoup
 
 def index(request):
 
-    r = RabotauaScraper(search_string='python')
-    resR = r.scrape()
-    w = WorkuaScraper(search_string='python')
-    resW = w.scrape()
-    h = HHruScraper(search_string='python')
-    resH = h.scrape()
+    if request.method == 'POST':
+        # if POST request
+        form = SearchForm(request.POST)
+        
+        if form.is_valid():
+            search_string = form.cleaned_data['search_string']
 
-    context = {'resR': resR,
-               'resW': resW,
-               'resH': resH}
+            r = RabotauaScraper(search_string=search_string)
+            resR = r.scrape()
+            w = WorkuaScraper(search_string=search_string)
+            resW = w.scrape()
+            h = HHruScraper(search_string=search_string)
+            resH = h.scrape()
 
+            context = {'form': form,
+                       'resR': resR,
+                       'resW': resW,
+                       'resH': resH}
+
+    else:
+        # if GET request creating empty form
+        form = SearchForm()
+        context = {'form': form}
+    
     return render(request, 'vscraper/scraper.html', context)
 
 

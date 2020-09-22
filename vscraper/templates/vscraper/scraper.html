@@ -5,7 +5,21 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5 py-5 mh-1000" >
+<div class="container mt-1 py-2" >
+    <div class="row mx-5">
+        <div class="col-8">
+            <form action="" method="post" class="text-center">
+                {% csrf_token %}
+                <div class="active-purple-3">
+                    {{ form.non_field_errors }}
+                    {{ form.search_string.errors }}
+                    {{ form.search_string }}
+                </div>
+                
+                <button class="btn btn-sm m-2" type="submit">Поиск</button>
+            </form>
+        </div>
+    </div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-rabotaua-tab" data-toggle="tab" href="#nav-rabotaua" role="tab" aria-controls="nav-rabotaua" aria-selected="true">Rabota.ua</a>

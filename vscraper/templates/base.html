@@ -8,22 +8,30 @@
   {% block title %}{% endblock %}
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet"/>
   <!-- Google Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-  <!-- Bootstrap core CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/css/mdb.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/1.2.0/mdb.min.css" rel="stylesheet" />
 
   <!--<link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">-->
 
   
 
 </head>
-<body class="d-flex flex-column">
+<body>
   <header>
-    
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand navbar-light bg-white">
+    <div class="container">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" aria-current="page" href="{% url 'admin:index' %}">Admin</a>
+          </li>
+        </ul>
+    </div>
+  </nav>
+  <!-- Navbar --> 
     
   </header>
   
@@ -35,16 +43,10 @@
  
   <footer class="page-footer font-small purple darken-2 mt-auto">
     <div class="footer-copyright text-center py-3">
-      This Blog is made for education purposes only. Article content is used for blog functionality demonstration only. 2020
+      This scraper is made for education purposes only. Content is used for functionality demonstration only. 2020
     </div>
-  <!-- JQuery -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/js/mdb.min.js"></script>
+  <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/1.2.0/mdb.min.js"></script>
   </footer>
 
 </body>
