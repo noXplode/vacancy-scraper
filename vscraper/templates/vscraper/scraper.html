@@ -1,25 +1,31 @@
 {% extends "base.html" %}
 {% block title %}
-<title> My Django Blog </title>
+<title> Vacancies Scraper </title>
 <meta name="description" content="Test Blog made for education purposes">
 {% endblock %}
 
 {% block content %}
 <div class="container mt-1 py-2" >
-    <div class="row mx-5">
-        <div class="col-8">
-            <form action="" method="post" class="text-center">
-                {% csrf_token %}
+    <form action="" method="get">
+        <div class="row mx-5">
+            <div class="col-8 text-center">
                 <div class="active-purple-3">
                     {{ form.non_field_errors }}
                     {{ form.search_string.errors }}
                     {{ form.search_string }}
                 </div>
-                
                 <button class="btn btn-sm m-2" type="submit">Поиск</button>
-            </form>
+            </div>
+            <div class="col-4">
+                {% for radio in form.q_choice %}
+                <div class="form-check">
+                    {{ radio.tag }}
+                    <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    </form>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-rabotaua-tab" data-toggle="tab" href="#nav-rabotaua" role="tab" aria-controls="nav-rabotaua" aria-selected="true">Rabota.ua</a>
@@ -30,7 +36,10 @@
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-rabotaua" role="tabpanel" aria-labelledby="nav-rabotaua-tab">
             <div class="row d-flex flex-column justify-content-xl-between flex-lg-row justify-content-center"> 
-                <div class="col-auto"> 
+                <div class="col-auto">
+                    <div class="row m-2 wow fadeIn">
+                        <a class="text-body" href="{{ urlR }}">{{ urlR }}</a>
+                    </div>
                     {% if resR %}
                     <p class="card-text m-1">rabota.ua - {{resR|length}} вакансий</p>
                     <div class="row row-cols-1 row-cols-md-2 wow fadeIn">
@@ -77,7 +86,10 @@
         </div>
         <div class="tab-pane fade" id="nav-workua" role="tabpanel" aria-labelledby="nav-workua-tab">
             <div class="row d-flex flex-column justify-content-xl-between flex-lg-row justify-content-center"> 
-                <div class="col-auto"> 
+                <div class="col-auto">
+                    <div class="row m-2 wow fadeIn">
+                        <a class="text-body" href="{{ urlW }}">{{ urlW }}</a>
+                    </div> 
                     {% if resW %}
                     <p class="card-text m-1">work.ua - {{resW|length}} вакансий</p>
                     <div class="row row-cols-1 row-cols-md-2 wow fadeIn">
@@ -125,6 +137,9 @@
         <div class="tab-pane fade" id="nav-hhru" role="tabpanel" aria-labelledby="nav-hhru-tab">
             <div class="row d-flex flex-column justify-content-xl-between flex-lg-row justify-content-center"> 
                 <div class="col-auto"> 
+                    <div class="row m-2 wow fadeIn">
+                        <a class="text-body" href="{{ urlH }}">{{ urlH }}</a>
+                    </div> 
                     {% if resH %}
                     <p class="card-text m-1">hh.ru - {{resH|length}} вакансий</p>
                     <div class="row row-cols-1 row-cols-md-2 wow fadeIn">
