@@ -25,14 +25,15 @@ def index(request):
             h = HHruScraper(search_string=search_string, q_type=q_type)
             resH = h.scrape()
             urlH = h.scrape_url
+            d = DouScraper(search_string=search_string, q_type=q_type)
+            resD = d.scrape()
+            urlD = d.scrape_url
 
             context = {'form': form,
-                       'resR': resR,
-                       'urlR': urlR,
-                       'resW': resW,
-                       'urlW': urlW,
-                       'resH': resH,
-                       'urlH': urlH}
+                       'resR': resR, 'urlR': urlR,
+                       'resW': resW, 'urlW': urlW,
+                       'resH': resH, 'urlH': urlH,
+                       'resD': resD, 'urlD': urlD}
 
     else:
         # if GET with no search_string request creating empty form
@@ -273,5 +274,69 @@ class HHruScraper:
         else:
             nextpage_url = 'https://hh.ru' + nxt
             self.scrape(nextpage_url)
+
+        return self.res
+
+
+class DouScraper:
+
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
+
+    def __init__(self, search_string, q_type):
+        self.search_string = search_string
+        self.q_type = q_type
+        self.scrape_url = self.get_url(self.search_string, self.q_type)
+        self.res = []
+    
+    def get_url(self, search_string, q_type):
+        if q_type == 1:
+            # dou.ua вся украина удаленно
+            url = f'https://jobs.dou.ua/vacancies/?remote&search={search_string}'
+        elif q_type == 2:
+            # dou.ua другие страны удаленно такая же как первая ссылка
+            url = f'https://jobs.dou.ua/vacancies/?remote&search={search_string}'
+        elif q_type == 3:
+            # dou.ua харьков 7 дней полная занятость
+            url = f'https://jobs.dou.ua/vacancies/?city=Харьков&search={search_string}'
+        else:
+            raise ValueError
+        print(url)
+        return url
+
+    def scrape(self, url=None):
+        # no pagination, scraping one page
+        r = requests.get(self.scrape_url, headers=self.headers)
+        text = r.text
+        soup = BeautifulSoup(text, "lxml")
+        tab = soup.find('div', 'l-items')    # vacancies table
+
+        trs = tab.findAll('div', 'vacancy')  # looking for rows
+        for tr in trs:
+            try:
+                title = tr.find('div', 'title').find('a', 'vt').string.strip()
+                url = tr.find('div', 'title').find('a', 'vt').get('href')
+                company = tr.find('div', 'title').find('a', 'company').get_text()
+                #print(f'{title}, {url}, {company}')
+                try:
+                    location = tr.find('div', 'title').find('span', 'cities').string.strip()
+                except Exception:
+                    location = ''
+                try:
+                    salary = tr.find('div', 'title').find('span', 'salary').string.strip()
+                except Exception:
+                    salary = ''
+                try:
+                    shdescr = tr.find('div', 'sh-info').get_text()
+                except Exception:
+                    shdescr = ''
+            except AttributeError:
+                continue
+            else:
+                self.res.append({'title': title,
+                                    'url': url,
+                                    'company': company,
+                                    'location': location,
+                                    'salary': salary,
+                                    'shdescr': shdescr})
 
         return self.res
