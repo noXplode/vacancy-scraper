@@ -1,7 +1,6 @@
 from .forms import SearchForm
 
 from django.shortcuts import render
-# from django.http import HttpResponse
 
 import requests
 from bs4 import BeautifulSoup
@@ -44,7 +43,7 @@ def index(request):
     return render(request, 'vscraper/scraper.html', context)
 
 
-class RabotauaScraper:
+class Scraper:
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
 
@@ -53,7 +52,18 @@ class RabotauaScraper:
         self.q_type = q_type
         self.scrape_url = self.get_url(self.search_string, self.q_type)
         self.res = []
-    
+
+    def get_page(self, url=None):
+        if url is None:
+            r = requests.get(self.scrape_url, headers=self.headers)
+        else:
+            r = requests.get(url, headers=self.headers)
+        text = r.text
+        return BeautifulSoup(text, "lxml")
+
+
+class RabotauaScraper(Scraper):
+
     def get_url(self, search_string, q_type):
         if q_type == 1:
             # rabota.ua вся украина 7 дней удаленно
@@ -70,12 +80,8 @@ class RabotauaScraper:
         return url
 
     def scrape(self, url=None):
-        if url is None:
-            r = requests.get(self.scrape_url, headers=self.headers)
-        else:
-            r = requests.get(url, headers=self.headers)
-        text = r.text
-        soup = BeautifulSoup(text, "lxml")
+        
+        soup = self.get_page(url)
 
         # кол-во вакансий в выборке
         cnt = int(soup.find('span', attrs={'id': 'ctl00_content_vacancyList_ltCount'}).find('span').string.strip())
@@ -117,15 +123,7 @@ class RabotauaScraper:
         return self.res
 
 
-class WorkuaScraper:
-
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
-
-    def __init__(self, search_string, q_type):
-        self.search_string = search_string
-        self.q_type = q_type
-        self.scrape_url = self.get_url(self.search_string, self.q_type)
-        self.res = []
+class WorkuaScraper(Scraper):
     
     def get_url(self, search_string, q_type):
         if q_type == 1:
@@ -143,12 +141,8 @@ class WorkuaScraper:
         return url
 
     def scrape(self, url=None):
-        if url is None:
-            r = requests.get(self.scrape_url, headers=self.headers)
-        else:
-            r = requests.get(url, headers=self.headers)
-        text = r.text
-        soup = BeautifulSoup(text, "lxml")
+
+        soup = self.get_page(url)
 
         tab = soup.find('div', id='pjax-job-list')    # vacancies table
         
@@ -201,15 +195,7 @@ class WorkuaScraper:
         return self.res
 
 
-class HHruScraper:
-
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
-
-    def __init__(self, search_string, q_type):
-        self.search_string = search_string
-        self.q_type = q_type
-        self.scrape_url = self.get_url(self.search_string, self.q_type)
-        self.res = []
+class HHruScraper(Scraper):
     
     def get_url(self, search_string, q_type):
         if q_type == 1:
@@ -227,12 +213,7 @@ class HHruScraper:
         return url
 
     def scrape(self, url=None):
-        if url is None:
-            r = requests.get(self.scrape_url, headers=self.headers)
-        else:
-            r = requests.get(url, headers=self.headers)
-        text = r.text
-        soup = BeautifulSoup(text, "lxml")
+        soup = self.get_page(url)
         tab = soup.find('div', 'vacancy-serp')    # vacancies table
 
         trs = tab.findAll('div', 'vacancy-serp-item')  # looking for rows
@@ -278,15 +259,7 @@ class HHruScraper:
         return self.res
 
 
-class DouScraper:
-
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
-
-    def __init__(self, search_string, q_type):
-        self.search_string = search_string
-        self.q_type = q_type
-        self.scrape_url = self.get_url(self.search_string, self.q_type)
-        self.res = []
+class DouScraper(Scraper):
     
     def get_url(self, search_string, q_type):
         if q_type == 1:

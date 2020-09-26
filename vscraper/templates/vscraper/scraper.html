@@ -28,10 +28,10 @@
     </form>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link active" id="nav-rabotaua-tab" data-toggle="tab" href="#nav-rabotaua" role="tab" aria-controls="nav-rabotaua" aria-selected="true">Rabota.ua</a>
-          <a class="nav-item nav-link" id="nav-workua-tab" data-toggle="tab" href="#nav-workua" role="tab" aria-controls="nav-workua" aria-selected="false">Work.ua</a>
-          <a class="nav-item nav-link" id="nav-hhru-tab" data-toggle="tab" href="#nav-hhru" role="tab" aria-controls="nav-hhru" aria-selected="false">HH.ru</a>
-          <a class="nav-item nav-link" id="nav-dou-tab" data-toggle="tab" href="#nav-dou" role="tab" aria-controls="nav-dou" aria-selected="false">Dou.ua</a>
+          <a class="nav-item nav-link active" id="nav-rabotaua-tab" data-toggle="tab" href="#nav-rabotaua" role="tab" aria-controls="nav-rabotaua" aria-selected="true">Rabota.ua {% if resR %}   {{resR|length}}{% endif%}</a>
+          <a class="nav-item nav-link" id="nav-workua-tab" data-toggle="tab" href="#nav-workua" role="tab" aria-controls="nav-workua" aria-selected="false">Work.ua {% if resW %}   {{resW|length}}{% endif%}</a>
+          <a class="nav-item nav-link" id="nav-hhru-tab" data-toggle="tab" href="#nav-hhru" role="tab" aria-controls="nav-hhru" aria-selected="false">HH.ru {% if resH %}   {{resH|length}}{% endif%}</a>
+          <a class="nav-item nav-link" id="nav-dou-tab" data-toggle="tab" href="#nav-dou" role="tab" aria-controls="nav-dou" aria-selected="false">Dou.ua {% if resD %}   {{resD|length}}{% endif%}</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
