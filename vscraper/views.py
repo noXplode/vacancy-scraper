@@ -109,10 +109,13 @@ class RabotauaScraper(Scraper):
                     except Exception:
                         shdescr = ''
                 except AttributeError:
-                    if tr.find('dd', 'nextbtn').find('a'):
-                        nextpage_url = 'https://rabota.ua' + tr.find('dd', 'nextbtn').find('a').get('href')
-                        print(nextpage_url)
-                        self.scrape(nextpage_url)
+                    if tr.find('dd', 'nextbtn'):
+                        try:
+                            nextpage_url = 'https://rabota.ua' + tr.find('dd', 'nextbtn').find('a').get('href')
+                            print(nextpage_url)
+                            self.scrape(nextpage_url)
+                        except Exception:
+                            pass
                 else:
                     self.res.append({'title': title,
                                     'url': url,
