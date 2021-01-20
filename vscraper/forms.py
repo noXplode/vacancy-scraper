@@ -9,5 +9,8 @@ class SearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['search_string'].widget.attrs.update({'class': 'form-control', 'type': 'text', 'placeholder': 'Search', 'aria-label': 'Search'})
+        self.fields['search_string'].widget.attrs.update({'class': 'form-control',
+                                                          'type': 'text',
+                                                          'placeholder': 'Search',
+                                                          'aria-label': 'Search'})
         self.fields['q_choice'].widget.attrs.update({'class': 'form-check-input'})

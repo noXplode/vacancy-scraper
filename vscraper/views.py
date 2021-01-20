@@ -38,7 +38,6 @@ def index(request):
         # if GET with no search_string request creating empty form
         form = SearchForm()
         context = {'form': form}
-    
 
     return render(request, 'vscraper/scraper.html', context)
 
@@ -80,7 +79,7 @@ class RabotauaScraper(Scraper):
         return url
 
     def scrape(self, url=None):
-        
+
         soup = self.get_page(url)
 
         # кол-во вакансий в выборке
@@ -118,16 +117,16 @@ class RabotauaScraper(Scraper):
                             pass
                 else:
                     self.res.append({'title': title,
-                                    'url': url,
-                                    'company': company,
-                                    'location': location,
-                                    'salary': salary,
-                                    'shdescr': shdescr})
+                                     'url': url,
+                                     'company': company,
+                                     'location': location,
+                                     'salary': salary,
+                                     'shdescr': shdescr})
         return self.res
 
 
 class WorkuaScraper(Scraper):
-    
+
     def get_url(self, search_string, q_type):
         if q_type == 1:
             # work.ua вся украина 7 дней удаленно
@@ -148,7 +147,7 @@ class WorkuaScraper(Scraper):
         soup = self.get_page(url)
 
         tab = soup.find('div', id='pjax-job-list')    # vacancies table
-        
+
         if tab is not None:
             trs = tab.findAll('div', 'job-link')  # looking for rows
             for tr in trs:
@@ -178,11 +177,11 @@ class WorkuaScraper(Scraper):
                 else:
                     # print(f'{title}, {url}, {company}, {location}, {salary}, {shdescr}')
                     self.res.append({'title': title,
-                                    'url': url,
-                                    'company': company,
-                                    'location': location,
-                                    'salary': salary,
-                                    'shdescr': shdescr})
+                                     'url': url,
+                                     'company': company,
+                                     'location': location,
+                                     'salary': salary,
+                                     'shdescr': shdescr})
 
             if tab.find('nav'):
                 nav = tab.find('nav').find('ul', 'pagination hidden-xs')
@@ -199,7 +198,7 @@ class WorkuaScraper(Scraper):
 
 
 class HHruScraper(Scraper):
-    
+
     def get_url(self, search_string, q_type):
         if q_type == 1:
             # hh.ru вся украина 7 дней удаленно
@@ -263,7 +262,7 @@ class HHruScraper(Scraper):
 
 
 class DouScraper(Scraper):
-    
+
     def get_url(self, search_string, q_type):
         if q_type == 1:
             # dou.ua вся украина удаленно
@@ -292,7 +291,7 @@ class DouScraper(Scraper):
                 title = tr.find('div', 'title').find('a', 'vt').string.strip()
                 url = tr.find('div', 'title').find('a', 'vt').get('href')
                 company = tr.find('div', 'title').find('a', 'company').get_text()
-                #print(f'{title}, {url}, {company}')
+                # print(f'{title}, {url}, {company}')
                 try:
                     location = tr.find('div', 'title').find('span', 'cities').string.strip()
                 except Exception:
@@ -309,10 +308,10 @@ class DouScraper(Scraper):
                 continue
             else:
                 self.res.append({'title': title,
-                                    'url': url,
-                                    'company': company,
-                                    'location': location,
-                                    'salary': salary,
-                                    'shdescr': shdescr})
+                                 'url': url,
+                                 'company': company,
+                                 'location': location,
+                                 'salary': salary,
+                                 'shdescr': shdescr})
 
         return self.res
