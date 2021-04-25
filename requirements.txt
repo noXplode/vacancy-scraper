@@ -6,3 +6,4 @@ environs
 gunicorn~=20.0.4
 django-silk==4.1.0
 whitenoise==5.1.0
+flake8
