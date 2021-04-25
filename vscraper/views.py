@@ -91,8 +91,8 @@ class RabotauaScraper(Scraper):
             trs = tab.findAll('tr')  # looking for rows
             for tr in trs:
                 try:
-                    title = tr.find('p', 'card-title').find('a', 'ga_listing').string.strip()
-                    url = 'https://rabota.ua' + tr.find('p', 'card-title').find('a', 'ga_listing').get('href')
+                    title = tr.find('h2', 'card-title').find('a', 'ga_listing').string.strip()
+                    url = 'https://rabota.ua' + tr.find('h2', 'card-title').find('a', 'ga_listing').get('href')
                     company = tr.find('p', 'company-name').find('a', 'company-profile-name').string.strip()
                     # print(f'{title}, {url}, {company}')
                     try:
